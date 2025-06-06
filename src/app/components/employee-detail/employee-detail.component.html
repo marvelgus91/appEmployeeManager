@@ -1,0 +1,107 @@
+<div class="container mt-4">
+  <div class="card employee-detail-card shadow-lg" *ngIf="employee">
+    <div class="card-header text-white text-center py-3">
+      <h2 class="mb-0 card-title-lg">Detalles del Empleado</h2>
+      <p class="mb-0 text-white-50">Información completa del perfil</p>
+    </div>
+
+    <div class="card-body p-4">
+      <div class="row mb-4 align-items-center">
+        <div class="col-md-4 text-center">
+          <ng-container *ngIf="employee.photo; else placeholderImage">
+            <div class="profile-image-container">
+              <img
+                [src]="employee.photo"
+                alt="Imagen de perfil"
+                class="profile-image"
+              />
+            </div>
+          </ng-container>
+          <ng-template #placeholderImage>
+            <div class="profile-image-container-placeholder">
+              <i class="bi bi-person-circle display-4 text-muted"></i>
+              <p class="text-muted small mb-0">No hay imagen de perfil</p>
+            </div>
+          </ng-template>
+          <h4 class="mt-3 mb-1" style="color: #296d8f">
+            {{ employee.fullName }}
+          </h4>
+          <p class="text-muted">{{ employee.position }}</p>
+        </div>
+
+        <div class="col-md-8">
+          <h5 class="mb-3 border-bottom pb-2">Datos Personales y Contacto</h5>
+          <div class="row g-2">
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">ID:</p>
+              <p class="text-muted">{{ employee.id }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">Compañia:</p>
+              <p class="text-muted">{{ employee.company_id }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">Area:</p>
+              <p class="text-muted">{{ employee.company_area_id || "N/A" }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">Departamento:</p>
+              <p class="text-muted">
+                {{ employee.company_department_id || "N/A" }}
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">Fecha de Contratación:</p>
+              <p class="text-muted">
+                {{ employee.startDate | date : "longDate" }}
+              </p>
+            </div>
+            <div class="col-sm-6">
+              <p class="fw-bold mb-0">Estado:</p>
+              <p class="text-muted">
+                <i
+                  class="bi bi-circle-fill"
+                  [class.text-success]="employee.status"
+                  [class.text-danger]="!employee.status"
+                >
+                </i>
+                <span class="ms-2">{{
+                  employee.status ? "Activo" : "Inactivo"
+                }}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer d-flex justify-content-end p-3 bg-light">
+      <button
+        type="button"
+        class="btn me-2"
+        style="background-color: #ec9929; color: black"
+        (click)="editEmployee()"
+      >
+        <i class="bi bi-pencil-square me-2"></i>Editar Empleado
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="goBack()">
+        <i class="bi bi-arrow-left-circle me-2"></i>Volver a la Lista
+      </button>
+    </div>
+  </div>
+
+  <div
+    class="alert alert-warning mt-4 text-center"
+    role="alert"
+    *ngIf="!employee"
+  >
+    <h4 class="alert-heading">Empleado no encontrado</h4>
+    <p>
+      Lo sentimos, no pudimos encontrar un empleado con el ID proporcionado.
+    </p>
+    <hr />
+    <button type="button" class="btn btn-primary" (click)="goBack()">
+      Volver a la Lista de Empleados
+    </button>
+  </div>
+</div>
